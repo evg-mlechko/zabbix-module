@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |conf|
+[7,8].each do |i|
+conf.vm.define "#{i}zabbix1" do |zabbixlab1|
+ 	zabbixlab1.vm.box = "sbeliakou/centos"
+  	zabbixlab1.vm.hostname = "#{i}zabbix1"
+  	zabbixlab1.vm.box_check_update = false
+  	zabbixlab1.vm.network :private_network, ip: "192.168.18.#{i}0"
+	#webs.vm.network "forwarded_port", guest: 8080, host: 1010
+	zabbixlab1.vm.provider "virtualbox" do |vb|
+
+ # Customize the amount of memory on the VM:
+	vb.name = "#{i}zabbix1"
+  vb.gui = true
+	vb.memory = "2048"
+	end
+  zabbixlab1.vm.provision "shell", path: "zabbixserv#{i}.sh"
+	end
+	end
+	end
